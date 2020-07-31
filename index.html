@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Book Finder</title>
+    
+    
+    
+    <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script defer src="https://kit.fontawesome.com/b49750d34d.js" crossorigin="anonymous"></script>
+    <script defer src="/scripts/inline-tweet.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
+    <script defer src="/scripts/growl-notification.min.js"></script>
+    <script defer src="/scripts/app.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/colored-theme.min.css">
+    <link rel="stylesheet" href="/styles/normalize.css">
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+
+    <header class="page-header bg-light">
+        <nav class="container navbar navbar-light ">
+            <div class="nav-left">
+                <img src="/assets/icons/book-finder.svg" alt="book with magnifying glass" height="50px" width="50px">
+                <span class="navbar-brand mb-0 h1">Book Finder</span>
+            </div>
+            <div class="nav-right">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#add-edit">Add Book</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Library of books (Read and Delete) -->
+        <section class="container" id="library-list">
+            <div>
+                <h2>Your Library</h2>
+            </div>
+
+            <div id="library-list-mount"></div>
+        </section>
+
+        <!-- Create and Update book -->
+        <section class="container" id="add-edit">
+            <h2><span class="mode">Add</span> book</h2>
+            <form class="shadow-sm p-3 mb-5 bg-white rounded" id="edit-form" name="edit-form" data-mode="Add">
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input name="title" id="title" type="text" class="form-control">
+                </div>
+                <!-- Author -->
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input id="author" name="author" type="text" class="form-control">
+                </div>
+                <!-- Genre -->
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input id="genre" name="genre"type="text" class="form-control">
+                </div>
+                <!-- Location -->
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input id="location" name="location" type="text" class="form-control">
+                </div>
+                <!-- Rating -->
+                <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <!-- <input id="rating" name="rating" type="text" placeholder="add number out of 5" class="form-control"> -->
+                    <select id="rating" name="rating" class="custom-select custom-select-lg">
+                        <option selected>From 1 - 5</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="Not read">Not read yet</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="reset" class="btn btn-outline-warning btn-lg"><i class="fas fa-redo"></i><span class="sr-only">Reset</span></button>                   
+                    <button class="btn btn-outline-primary btn-lg"><span class="mode">Add</span> Book</button>
+                </div>
+            </form>
+        </section>
+        <aside class="container ">
+            <p class="shadow-sm p-3 mb-5 bg-white rounded tweet" data-inline-tweet data-inline-tweet-tags="bookfinderapp, goodreads">Share what you're reading!</p>
+        </aside>
+        
+    </main>
+    <footer class="bg-light">
+        <nav class="container navbar navbar-light ">
+            <a class="navbar-brand mb-0 h1" href="#">Book Finder App</a>
+            <small>&copy; Ian Whiscombe 2020</small>
+            
+        </nav>
+    </footer>
+        
+</body>
+
+</html>
