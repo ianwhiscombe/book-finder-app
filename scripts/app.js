@@ -239,7 +239,8 @@ function render(library = [], ordered = false, insertionPoint = listMount) {
     let displayElement = null;
     // ! Q is the library.length condition in if statement checking that there is something in the library array (so if it returns false then the statement doesn't run)?
     if (library.length) {
-        log("rendering list"); // testing
+        log("rendering list");
+        log('branch test') // testing
         const listType = ordered ? "ol" : "ul";
         const list = document.createElement(listType);
         list.classList.add("list-group");
