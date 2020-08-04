@@ -1,22 +1,13 @@
-
-const { log } = console;
-
 // Class with constructor to create instance of a book
 
 class Book {
-    constructor(title, author, genre, location, rating = 'Not read') {
-
-        log(arguments); // for debugging, to easily see the values passed to the constructor when the app class is executed.
-
-        // Checks on values being passed.
-
+    constructor(title, author, genre, location, rating = 'Not read', id) {
         if (!title) {
             throw new Error(`No book title provided, received: ${title}`);
         }
         if (typeof title !== 'string') {
             throw new Error(`Title should be a string, received: ${title}`);
         }
-        // assign passed value to title in this instance.
         this.title = title;
 
         if (!author) {
@@ -42,48 +33,42 @@ class Book {
             throw new Error(`Location should be a string, received: ${location}`);
         }
         this.location = location;
-        // removed this check as the form element is a select so user can only choose the set values.
-        // if (
-        //     typeof rating !== "number" &&
-        //     rating != null &&
-        //     typeof rating !== "undefined") {
-        //     throw new Error(
-        //         `Rating should be a number from 0 to 5 or null, received: ${rating}`
-        //     );
-        // }
+        
         this.rating = rating;
         this.hasBeenRead = rating != null;
+
+        this.id = id;
     }
 }
 
 // Class for book finder app
 
 class BookFinderApp {
-    // receive an array of data to be turned into books 
+    
     constructor(libraryDataArray) {
-        // checking it was provided the library and then that it is an array.
+        
         if (!libraryDataArray) {
             throw new Error(`No library provided, received: ${library}`);
         }
         if (!Array.isArray(libraryDataArray)) {
             throw new Error(`Library must be an array, received: ${library}`);
         }
-        // creates an empty array to hold a list of all books.
+        
         this.library = [];
 
-        // put each piece of data into the app's library array that it receives by calling the Book class.
         for (const bookData of libraryDataArray) {
             this.library.push(new Book(
                 bookData.title,
                 bookData.author,
                 bookData.genre,
                 bookData.location,
-                bookData.rating
+                bookData.rating,
+                bookData.id
             ));
         }
     };
 
-    // CRUD methods (create, read, update, delete)
+    // CRUD methods
 
     // Add (create) a book. 
 
@@ -91,7 +76,7 @@ class BookFinderApp {
         if(!bookData) {
             throw new Error(`No data provided to addBook, received: ${bookData}`);
         }
-        // create new Book from the data, push into the apps array and then return the new book.
+        
         const newBook = new Book(
             bookData.title,
             bookData.author,
@@ -103,9 +88,9 @@ class BookFinderApp {
         return newBook;
     }
 
-    // Find (read) a book (reveals book's location)
+    // Find (read) a book 
 
-    // get the index of the book that exists with supplied title.
+    // get the index of the book that exists with supplied title for getBook method to use.
     getBookIndex(title) {
         if (!title) {
             throw new Error(`No book title provided, received: ${title}`);
@@ -116,12 +101,12 @@ class BookFinderApp {
         const index = this.library.findIndex((book) => {
             return book.title === title;
         });
-        // warns if no item with that title exists. 
+        
         if (!~index) {
             log(`Book with title of ${title} was not found`);
         }
         return index;
-        // getBook method will use the return from this method to take the book from the array.
+        
     }
 
     // find specific book using title to search.
@@ -152,9 +137,9 @@ class BookFinderApp {
         if (!value) {
             throw new Error(`A value must be provided to update any fields. Received: ${value}`);
         }
-        // this now updates the book.
+        
         const targetBook = this.getBook(title);
-        // this deals with not finding the book.
+        
         if (!targetBook) {
             throw new Error(`Book not found, received ${title}`);
         }
@@ -178,7 +163,7 @@ class BookFinderApp {
     }
 }
 
-// Some initial data to turn into books (an array containing book objects).
+// Some initial data to turn into books
 
 const books = [
     {
@@ -186,60 +171,58 @@ const books = [
         author: 'Richard Matheson',
         genre: 'Horror',
         location: 'Top Floor',
-        rating: 5
+        rating: 5,
+        id: 11
     },
     {
         title: 'Game of Thrones',
         author: 'George RR Martin',
         genre: 'Fantasy',
         location: 'Top Floor',
-        rating: 4
+        rating: 4,
+        id: 12
     },
     {
         title: 'The Pragmatic Programmer',
         author: 'David Thomas & Andrew Hunt',
         genre: 'Education',
         location: 'Study',
-        rating: 4
+        rating: 4,
+        id: 13
     },
     {
         title: 'Take Your Eye Off the Ball',
         author: 'Pat Kirwan',
         genre: 'Sport',
         location: 'Landing',
-        rating: 5
+        rating: 5,
+        id: 14
     },
     {
         title: 'Bring Up the Bodies',
         author: 'Hilary Mantel',
         genre: 'Historical Fiction',
         location: 'Lounge',
-        rating: 3
+        rating: 3,
+        id: 15
     }
 ];
 
 // * UI functions
 
-// log the books array to test
-log('books', books);
-// create an instance of the app by executing the BookFinderApp function with the books array, assiging the result of that to a new variable called myBookFinderApp and then logging it to the console.
+// create an instance of the app using the array of books
 const myBookFinderApp = new BookFinderApp(books);
-log(myBookFinderApp);
 
-
-
-// assigning div with id library-list-mount to variable called listMount
 const listMount = document.getElementById("library-list-mount");
-log("listMount", listMount); //testing in console
 
-// todo Create the render function to display all books in the library, (expand on this description once finished and I understand it).
+// display books
 
 function render(library = [], ordered = false, insertionPoint = listMount) {
+    
     insertionPoint.innerHTML = "";
     let displayElement = null;
-    // ! Q is the library.length condition in if statement checking that there is something in the library array (so if it returns false then the statement doesn't run)?
+
     if (library.length) {
-        log("rendering list"); // testing
         const listType = ordered ? "ol" : "ul";
         const list = document.createElement(listType);
         list.classList.add("list-group");
@@ -248,6 +231,9 @@ function render(library = [], ordered = false, insertionPoint = listMount) {
             const li = document.createElement("li");
             li.classList.add("list-group-item", "book-item", "shadow-sm", "p-3", "mb-5", "rounded");
             li.draggable = true;
+            li.id = `${book.id}`
+            li.setAttribute("ondragstart", "onDragStart(event);")
+            li.setAttribute("ondragend", "onDragEnd(event);")
             li.innerHTML = `
             <i class="fas fa-book"></i>
             <span class="title">${book.title}</span><br>
@@ -273,33 +259,109 @@ function render(library = [], ordered = false, insertionPoint = listMount) {
         }
         displayElement = list;
     } else {
-        log("rendering no books"); //testing (or comment out all objects in the books array)
         const noBooksMessage = document.createElement("p");
         noBooksMessage.innerHTML = `<span>Your library is empty :( <a class="text-primary" href="https://www.goodreads.com">Get inspired!</a></span>`
 
         displayElement = noBooksMessage;    
     }
     insertionPoint.append(displayElement);
+
+    
+
 } 
-// execute the render function, this calls the mybookFinderApp function and passes the books array in.
+
 render(myBookFinderApp.library);
 
-// Add a new book to the library functionality
+// Drag and Drop 
 
-// assigns the form named edit-form to a variable called editForm (.forms is a property of the document object that holds an array of all forms on the page)
+onDragStart = (event) => {
+    
+    event
+    .dataTransfer
+    .setData('text/plain', event.target.id);
+    
+    event
+    .currentTarget
+    .style
+    .border = 'dashed rgb(0,123,255)'
+}
+
+onDragEnd = (event) => {
+    event
+    .currentTarget
+    .style
+    .border = '1px solid rgba(0,0,0,.125)'
+}
+
+onDragOver = (event) => {
+    event.preventDefault();
+    
+    event
+    .currentTarget
+    .style
+    .border = 'dashed'
+
+    event
+    .currentTarget
+    .style
+    .height = '225px'
+}
+
+onDragLeave = (event) => {
+    event
+    .currentTarget
+    .style
+    .border = '1px dashed rgba(0,0,0,.125)'
+
+    event
+    .currentTarget
+    .style
+    .height = '150px'
+}
+
+onDrop = (event) => {
+    
+    const id = event.dataTransfer.getData('text');
+    const draggableElement = document.getElementById(id);
+    const selectedTitle = draggableElement.getElementsByClassName('title');
+    bookTitle = selectedTitle[0].innerHTML;
+    const dropzone = event.target;
+    dropzone.insertAdjacentElement('afterend', draggableElement);
+
+    event
+    .currentTarget
+    .style
+    .border = '1px dashed rgba(0,0,0,.125)'
+
+    event
+    .currentTarget
+    .style
+    .height = '150px'
+
+    event
+    .dataTransfer
+    .clearData();
+
+    GrowlNotification.notify({
+        title: 'Success!',
+        description: `${bookTitle} has been added to your reading list`,
+        type: 'success',
+        position: 'top-right',
+        closeTimeout: 2300
+    })
+}
+
+
+// Add a new book to the library 
+
 const editForm = document.forms["edit-form"];
 const modeDisplayNodes = document.querySelectorAll(".mode");
 
 editForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const { mode } = editForm.dataset;
-    log("form mode", mode);//testing
-
-    // ! Q. this if statement is stopping title from being passed when adding a new book, commenting it out fixes the problem. Should it be mode === "Update"??
+    
     const formData = new FormData(editForm);
-    if (mode === "Update") {
-        // formData.delete("title");
-    }
 
     const data = Object.fromEntries(formData);
 
@@ -311,12 +373,11 @@ editForm.addEventListener("submit", (e) => {
             type: 'success',
             position: 'top-right',
             closeTimeout: 2300
-          });
+        });
     } else if (mode === "Update") {
         const id = data.title;
         const index = myBookFinderApp.getBookIndex(id);
         const updatedBook = new Book(
-            // id,
             data.title,
             data.author,
             data.genre,
@@ -330,7 +391,7 @@ editForm.addEventListener("submit", (e) => {
             type: 'success',
             position: 'top-right',
             closeTimeout: 2300
-          });
+        });
     } else {
         throw new Error("No mode given on form");    
     }
@@ -346,16 +407,12 @@ editForm.addEventListener("submit", (e) => {
 // Delete and Update functionality.
 
 listMount.addEventListener("click", (e) => {
-    // this handles delegation using .closest to target the update and delete buttons that don't exist when the page is created.
     const evtTarget = e.target;
     const updateBtn = evtTarget.closest("button.update");
     const deleteBtn = evtTarget.closest("button.delete");
 
     if (deleteBtn) {
-        log("delete");
-        log(deleteBtn);
         const { id } = deleteBtn.dataset;
-        log("here is delete id", id);
 
         myBookFinderApp.removeBook(id);
 
@@ -374,12 +431,8 @@ listMount.addEventListener("click", (e) => {
         }
 
     } else if (updateBtn) {
-        log("update");
-        log(updateBtn);
-
         const { id } = updateBtn.dataset;
         const book = myBookFinderApp.getBook(id);
-        log("book to be updated", book);
         populate(editForm, book);
         const updateModeStr = "Update";
         editForm.dataset.mode = updateModeStr;
@@ -388,44 +441,33 @@ listMount.addEventListener("click", (e) => {
             node.textContent = updateModeStr;
         }
     } else {
-        log("was neither");
         return;
     }
 });
-
-
-// Populate function taken from James' code. 
+ 
 function populate(form, data) {
-    // walk the object
     for (const key in data) {
-      // if this is a system property then bail...
         if (!data.hasOwnProperty(key)) {
         continue;
     }
 
-      // get key/value for inputs
         let name = key;
         let value = data[key];
 
-      // Make any bad values an empty string
         if (!value && value !== 0) {
         value = "";
     }
 
-      // try to find element in the form
         const element = form.elements[name];
 
-      // If we can't then bail
         if (!element) {
         continue;
     }
 
-      // see what type an element is to handle the process differently
         const type = element.type || element[0].type;
 
         switch (type) {
         case "checkbox": {
-          // Here, value is an array of values to be spread across the checkboxes that make up this input. It's the value of the input as a whole, NOT the value of one checkbox.
             const values = Array.isArray(value) ? value : [value];
 
             for (let j = 0, len = element.length; j < len; j += 1) {
