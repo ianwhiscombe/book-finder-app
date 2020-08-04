@@ -18,39 +18,25 @@ html {
   a {
     color: inherit;
     text-decoration: none;
-    /* You MUST make sure that links stand out from nomal text though...*/
   }
-  
-  /*
-      a:hover,
-      a:focus {
-        text-decoration: underline;
-      }
-    */
   
   img {
-    /* This means that it can be less than 100% of the width of its parent IF the image is INTRINSICALLY smaller */
     max-width: 100%;
-  
     height: auto;
-    /* 'auto' is the initial value for height BUT for images (and other elements which have an intrinic height) that is not the case. To make an image responsive you set one dimension (usually width) to [max-]width: 100%; and the other to 'auto' to ensure it keeps aspect ratio. 'auto' basically tells the browser to decide. */
     vertical-align: middle;
-    /* minor vertical centering. Works for images IF there is a baseline (i.e. they are displayed inline or inline-block) */
   }
   
-  /* Because we us <ul>s for lists that we don't always want bulletted. */
   ul {
     list-style: none;
     padding-left: 0;
   }
   
-  /* To make actual bulletted lists */
   ul.typographic {
     list-style: initial;
     padding-inline-start: 20px;
   }
   
-  /* For 'accessibility text'. If your button only has an image inside it that isn't good for accessibility. Put a span inside there and give it this class and put some descriptive text for what the button does into the span. */
+  /* For 'accessibility text'.  */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -73,10 +59,6 @@ html {
 
 
 /* My CSS */
-
-body {
-  /* background-color: #f5f5f5 */
-}
 
 h2 {
   padding: 15px 0px;
@@ -105,14 +87,24 @@ h2 {
   display: flex;
   justify-content: space-between;
 }
+.navbar-nav {
+  flex-direction: row;
+}
 .nav-right {
   display: flex;
+}
+.nav-item {
+  display: inline;
 }
 .navbar-nav .nav-link {
   padding-right: 10px;
 }
 #edit-form {
   border: 1px solid rgba(0,0,0,.125);
+}
+#reading-list-mount {
+  border: 1px dashed rgba(0,0,0,.125);
+  min-height: 150px;
 }
 .tweet {
   border: 1px solid rgba(0,0,0,.125);
